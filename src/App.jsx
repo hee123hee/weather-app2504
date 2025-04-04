@@ -14,8 +14,14 @@ const App = () => {
         navigator.geolocation.getCurrentPosition((position) => {
             let lat = position.coords.latitude
             let lon = position.coords.longitude
-            console.log("현재 위치", lat, lon)
+            getWeatherByCurrentlocation(lat,lon);
         });
+    };
+    const getWeatherByCurrentlocation = async(lat,lon) =>{
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=c7c7b34b6a15f7f79d2a5967c5800734`
+        let response = await fetch(url)
+        let data = await response.json();
+        console.log(data)
     };
 
     useEffect(() => {
