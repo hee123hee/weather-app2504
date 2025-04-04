@@ -3,10 +3,11 @@
 // 3. 버튼을 클릭하면 그에 맞는 날씨 정보 보이기
 // 4. 정보를 가져오는 동안 로딩 중 표시
 
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-
-import React from 'react';
+import WeatherBox from "./component/WeatherBox";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import WeatherButton from "./component/WeatherButton.jsx";
 
 const App = () => {
     const getCurrentLocation = () => {
@@ -28,7 +29,14 @@ const App = () => {
         getCurrentLocation();
     }, []);
 
-    return <div>App</div>;
+    return(
+    <div>
+        <div className="container">
+        <WeatherBox />
+        <WeatherButton />
+        </div>
+    </div>
+);
 };
 
 export default App;
