@@ -3,13 +3,14 @@
 // 3. 버튼을 클릭하면 그에 맞는 날씨 정보 보이기
 // 4. 정보를 가져오는 동안 로딩 중 표시
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import WeatherBox from "./component/WeatherBox";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WeatherButton from "./component/WeatherButton.jsx";
 
 const App = () => {
+    const [weather, setWeather] = useState(null);
     const getCurrentLocation = () => {
         // console.log("getCurrentLocation")
         navigator.geolocation.getCurrentPosition((position) => {
@@ -19,10 +20,11 @@ const App = () => {
         });
     };
     const getWeatherByCurrentlocation = async(lat,lon) =>{
-        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=c7c7b34b6a15f7f79d2a5967c5800734`
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=c7c7b34b6a15f7f79d2a5967c5800734&units=metric`
         let response = await fetch(url)
         let data = await response.json();
-        console.log(data)
+        setWeather(data);
+
     };
 
     useEffect(() => {
@@ -32,7 +34,7 @@ const App = () => {
     return(
     <div>
         <div className="container">
-        <WeatherBox />
+        <WeatherBox weather={weather} />
         <WeatherButton />
         </div>
     </div>
