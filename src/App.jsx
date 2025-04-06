@@ -11,34 +11,47 @@ import WeatherButton from "./component/WeatherButton.jsx";
 
 const App = () => {
     const [weather, setWeather] = useState(null);
+    const [city, setCity] = useState('')
+    const cities = ['paris', 'new york', 'tokyo', 'seoul']
     const getCurrentLocation = () => {
         // console.log("getCurrentLocation")
         navigator.geolocation.getCurrentPosition((position) => {
             let lat = position.coords.latitude
             let lon = position.coords.longitude
-            getWeatherByCurrentlocation(lat,lon);
+            getWeatherByCurrentlocation(lat, lon);
         });
     };
-    const getWeatherByCurrentlocation = async(lat,lon) =>{
+    const getWeatherByCurrentlocation = async (lat, lon) => {
         let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=c7c7b34b6a15f7f79d2a5967c5800734&units=metric`
         let response = await fetch(url)
         let data = await response.json();
         setWeather(data);
 
     };
+    const getWeatherByCity = async () => {
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=c7c7b34b6a15f7f79d2a5967c5800734&units=metric`
+        let response = await fetch(url)
+        let data = await response.json()
+        setWeather(data);
+    }
 
     useEffect(() => {
-        getCurrentLocation();
-    }, []);
+        if (city === "") {
+            getCurrentLocation();
+        } else {
+            getWeatherByCity();
+        }
+    }, [city]);
 
-    return(
-    <div>
-        <div className="container">
-        <WeatherBox weather={weather} />
-        <WeatherButton />
+
+    return (
+        <div>
+            <div className="container">
+                <WeatherBox weather={weather}/>
+                <WeatherButton cities={cities} setCity={setCity}/>
+            </div>
         </div>
-    </div>
-);
+    );
 };
 
 export default App;
