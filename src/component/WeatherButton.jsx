@@ -7,7 +7,7 @@ const WeatherButton = ({cities, setCity}) => {
 
 
     return (
-        <div>
+        <div className='button-area'>
             <Button variant="success">Current Location</Button>
 
             {cities.map((item, index) => (

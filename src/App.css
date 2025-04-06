@@ -24,4 +24,27 @@ body {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  background-color: white;
+}
+
+.button-area button{
+  width: 100px;
+  height: 70px;
+  border-radius: 70%;
+  margin:10px;
+  font-size: 19px;
+}
+
+/* 모바일 버전 */
+@media only screnn and (max-width: 600px) {
+  .button-area button {
+    width: 90vw;
+    font-size: large;
+  }
+
+  .weather-box {
+    font-size: xx-large;
+    width: 100vw;
+    height: 300px;
+  }
 }
