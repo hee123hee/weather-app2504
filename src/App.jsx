@@ -8,8 +8,11 @@ import './App.css';
 import WeatherBox from "./component/WeatherBox";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WeatherButton from "./component/WeatherButton.jsx";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const App = () => {
+    const [loading, setLoading] = useState(false);
+
     const [weather, setWeather] = useState(null);
     const [city, setCity] = useState('')
     const cities = ['paris', 'new york', 'tokyo', 'seoul']
@@ -23,16 +26,20 @@ const App = () => {
     };
     const getWeatherByCurrentlocation = async (lat, lon) => {
         let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=c7c7b34b6a15f7f79d2a5967c5800734&units=metric`
+        setLoading(true);
         let response = await fetch(url)
         let data = await response.json();
         setWeather(data);
+        setLoading(false);
 
     };
     const getWeatherByCity = async () => {
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=c7c7b34b6a15f7f79d2a5967c5800734&units=metric`
+        setLoading(true)
         let response = await fetch(url)
         let data = await response.json()
         setWeather(data);
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -46,10 +53,20 @@ const App = () => {
 
     return (
         <div>
-            <div className="container">
-                <WeatherBox weather={weather}/>
-                <WeatherButton cities={cities} setCity={setCity}/>
-            </div>
+            {loading ? (
+                    <div className="container">
+                        <ClipLoader
+                            color="#000000"
+                            loading={loading}
+                            size={150}
+                        /></div>) :
+                <div className="container">
+                    <WeatherBox weather={weather}/>
+                    <WeatherButton cities={cities} setCity={setCity}/>
+                </div>
+            }
+
+
         </div>
     );
 };
