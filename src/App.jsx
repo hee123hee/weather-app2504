@@ -10,12 +10,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import WeatherButton from "./component/WeatherButton.jsx";
 import ClipLoader from "react-spinners/ClipLoader";
 
+const cities = ['paris', 'new york', 'tokyo', 'seoul']
+const OPENWEATHER_API_KEY=import.meta.env.VITE_OPENWEATHER_API_KEY;
+
 const App = () => {
     const [loading, setLoading] = useState(false);
 
     const [weather, setWeather] = useState(null);
     const [city, setCity] = useState('')
-    const cities = ['paris', 'new york', 'tokyo', 'seoul']
     const getCurrentLocation = () => {
         // console.log("getCurrentLocation")
         navigator.geolocation.getCurrentPosition((position) => {
@@ -25,7 +27,7 @@ const App = () => {
         });
     };
     const getWeatherByCurrentlocation = async (lat, lon) => {
-        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=c7c7b34b6a15f7f79d2a5967c5800734&units=metric`
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric`
         setLoading(true);
         let response = await fetch(url)
         let data = await response.json();
@@ -34,7 +36,7 @@ const App = () => {
 
     };
     const getWeatherByCity = async () => {
-        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=c7c7b34b6a15f7f79d2a5967c5800734&units=metric`
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPENWEATHER_API_KEY}&units=metric`
         setLoading(true)
         let response = await fetch(url)
         let data = await response.json()
@@ -50,11 +52,11 @@ const App = () => {
         }
     }, [city]);
 
-    const handleCityChange=(city)=>{
-        if(city === 'current'){
+    const handleCityChange = (city) => {
+        if (city === 'current') {
             setCity(null);
             // getCureentLocation();
-        } else{
+        } else {
             setCity(city)
         }
     }
