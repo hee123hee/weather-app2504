@@ -43,12 +43,21 @@ const App = () => {
     }
 
     useEffect(() => {
-        if (city === "") {
+        if (city === "" || city === null) {
             getCurrentLocation();
         } else {
             getWeatherByCity();
         }
     }, [city]);
+
+    const handleCityChange=(city)=>{
+        if(city === 'current'){
+            setCity(null);
+            // getCureentLocation();
+        } else{
+            setCity(city)
+        }
+    }
 
 
     return (
@@ -62,7 +71,8 @@ const App = () => {
                         /></div>) :
                 <div className="container">
                     <WeatherBox weather={weather}/>
-                    <WeatherButton cities={cities} setCity={setCity}/>
+                    <WeatherButton cities={cities} setCity={setCity}
+                                   handleCityChange={handleCityChange}/>
                 </div>
             }
 
